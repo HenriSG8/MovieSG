@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+
+:root {
+  /* Common variables */
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --glass: blur(15px);
+  
+  /* Light Theme (Default) */
+  --primary: #007bff;
+  --secondary: #3a7bd5;
+  --accent: #7d2ae8;
+  --bg-body: #f5f5f7;
+  --bg-card: #ffffff;
+  --bg-nav: rgba(255, 255, 255, 0.8);
+  --text-main: #1d1d1f;
+  --text-dim: #4a4a4f;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --border: rgba(0, 0, 0, 0.1);
+  --hero-overlay: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(245,245,247,1) 100%);
+  --backdrop-overlay: linear-gradient(to right, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.4) 100%);
+  --input-bg: #ececec;
+}
+
+body.dark {
+  /* Dark Theme */
+  --primary: #00d2ff;
+  --secondary: #3a7bd5;
+  --accent: #7d2ae8;
+  --bg-body: #050505;
+  --bg-card: #121212;
+  --bg-nav: rgba(10, 10, 10, 0.8);
+  --text-main: #ffffff;
+  --text-dim: #a0a0a0;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --border: rgba(255, 255, 255, 0.1);
+  --hero-overlay: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(5,5,5,1) 100%);
+  --backdrop-overlay: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 100%);
+  --input-bg: #222;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Outfit', sans-serif;
+}
+
+body {
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-body);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-dim);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}

@@ -24,21 +24,22 @@ const Login = () => {
     event.preventDefault();
     const cleanedEmail = sanitizeEmail(state.email);
 
-    const formData = new FormData();
-    formData.append('email', cleanedEmail);
-    formData.append('password', state.password);
+    const payload = {
+      email: cleanedEmail,
+      password: state.password
+    };
 
     try {
-      const response = await axios.post('http://localhost:3000/user/signIn', formData, {
+      const response = await axios.post('http://192.168.0.236:3000/user/signIn', payload, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      const { access_token: token, email, id } = response.data;
+      const { access_token: token, username, id } = response.data;
       const cookieData = {
         access_token: token,
-        email: email,
+        username: username,
         id: id,
       };
 

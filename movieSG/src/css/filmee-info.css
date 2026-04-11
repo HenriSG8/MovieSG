@@ -1,128 +1,245 @@
-/* Seu código CSS original sem suporte a modo escuro */
-.filme-info {
-  margin: 0 auto;
-  margin-top: 18px;
+.filme-details-container {
+  min-height: 100vh;
+  padding-top: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.filme-details-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--backdrop-overlay);
+  z-index: 1;
+}
+
+.filme-info-wrapper {
+  position: relative;
+  z-index: 2;
+  max-width: 1000px;
+  width: 90%;
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 50px;
+  padding: 40px;
+  background: rgba(20, 20, 20, 0.7);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.back-btn {
+  position: absolute;
+  top: 100px; /* Abaixo da navbar */
+  left: 5%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  backdrop-filter: blur(5px);
+  z-index: 10;
+  transition: var(--transition);
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(-3px);
+}
+
+.poster-side img {
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease;
+}
+
+.poster-side img:hover {
+  transform: scale(1.02);
+}
+
+.info-side {
   display: flex;
   flex-direction: column;
-  max-width: 800px;
-  padding: 0 8px;
-  background-color: #e0e0e0;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-.titlei{
-
-  background-color: #f7f7f7;
-  padding: 15px;
-  border: 2px solid #007bff; /* Borda mais destacada */
-  border-radius: 15px;
-
-
-}
-.filme-info h1 {
-  margin: 14px 0;
+  justify-content: center;
 }
 
-.filme-info img {
-  border-radius: 8px;
-  width: 800px;
-  max-width: 100%;
-  max-height: 340px;
-  object-fit: cover;
+.titlei {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  color: #fff;
 }
 
-.filme-info h3 {
-  margin-top: 14px;
-  font-size: 35px;
-}
-
-.filme-info span {
-  margin: 8px 0;
-  font-size: 18px;
-  background-color: #e0e0e0;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.filme-info strong {
-  font-size: 18px;
-}
-
-.area-buttons button,
-.area-buttons button2 {
-  margin-right: 12px;
-  margin-top: 14px;
-  margin-left: 0;
-  font-size: 20px;
-  border: 0;
-  outline: none;
-  padding: 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.5s;
-}
-
-
-.area-buttons .bnt3:hover {
-  background-color: brown;
-  color: #FFF;
-  padding: 15px;
-  border: 2px solid #007bff; /* Borda mais destacada */
-  border-radius: 15px;
-
-}
-
-.area-buttons .bnt2:hover {
-  background-color: rgb(42, 165, 73);
-  color: #FFF;
-  padding: 15px;
-  border: 2px solid #007bff; /* Borda mais destacada */
-  border-radius: 15px;
-
-}
-
-.area-buttons a {
-  text-decoration: none;
+.rating-badge {
+  display: inline-block;
+  padding: 5px 15px;
+  background-color: var(--primary);
   color: #000;
-  transition: all 0.5s;
+  border-radius: 20px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  font-size: 0.9rem;
 }
 
-.area-buttons a:hover {
-  color: #FFF;
+.sinopse-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--primary);
 }
 
-/* Estilos para o modo escuro */
-body.dark .filme-info,
-body.dark .filme-info h1,
-body.dark .filme-info img,
-body.dark .filme-info h3,
-body.dark .filme-info span,
-body.dark .filme-info strong,
-body.dark .area-buttons button2 {
+.sinopse-text {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #e0e0e0;
+  margin-bottom: 30px;
+}
+
+.area-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.bnt2, .bnt3 {
+  flex: 1;
+  padding: 15px 25px;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.bnt2 {
+  background-color: var(--primary);
+  color: #000;
+}
+
+.bnt2:hover {
+  filter: brightness(1.2);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 210, 255, 0.3);
+}
+
+.bnt3 {
+  background-color: #333;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bnt3 a {
+  color: #fff;
+  display: block;
+}
+
+.bnt3:hover {
+  background-color: #444;
+  transform: translateY(-3px);
+}
+
+@media (max-width: 900px) {
+  .filme-info-wrapper {
+    grid-template-columns: 1fr;
+    padding: 30px;
+  }
   
-  background-color: #333; /* Cor de fundo escura */
-  color: #fff; /* Cor do texto clara */
+  .poster-side {
+    max-width: 250px;
+    margin: 0 auto;
+  }
+  
+  .titlei {
+    font-size: 2rem;
+    text-align: center;
+  }
+  
+  .info-side {
+    align-items: center;
+    text-align: center;
+  }
 }
 
+/* User Rating Section */
+.user-rating-section {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-body.dark .area-buttons button:hover,
-body.dark .area-buttons button2:hover  {
-  background-color: brown;
-  color: #ffffff;
+.rating-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.rating-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.score-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.score-input-wrapper label {
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+.score-input-wrapper input {
+  width: 80px;
+  padding: 8px;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-main);
+  font-size: 1rem;
+  text-align: center;
+}
+
+.rating-inputs textarea {
+  width: 100%;
+  min-height: 100px;
   padding: 15px;
-  border: 2px solid #007bff; /* Borda mais destacada */
-  border-radius: 15px;
-
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-main);
+  font-size: 1rem;
+  resize: vertical;
 }
 
-
-body.dark .area-buttons .bnt2:hover {
-  background-color: rgb(42, 165, 73);
-  color: #FFF;
-  padding: 15px;
-  border: 2px solid #007bff; /* Borda mais destacada */
-  border-radius: 15px;
-
+.save-rating-btn {
+  align-self: flex-start;
+  padding: 12px 25px;
+  background-color: var(--primary);
+  color: #000;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: all 0.3s ease;
 }
 
+.save-rating-btn:hover {
+  filter: brightness(1.2);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3);
+}
 

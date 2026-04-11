@@ -44,7 +44,7 @@ export class UserController {
                 maxAge: maxAgeInMilliseconds,
             });
             // Respond with token and user data
-            res.json({ access_token: token, username: user.email, id: user.id });
+            res.json({ access_token: token, username: user.username, id: user.id });
         } catch (error) {
             // Handle any errors that occur during login
             res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Not Authorized' });

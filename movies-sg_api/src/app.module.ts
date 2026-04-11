@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { RatingModule } from './rating/rating.module';
 
 
 @Module({
@@ -14,13 +15,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       database: process.env.DB_DATABASE,
       host: process.env.DB_HOST,
       password: process.env.DB_PASSWORD,
-      port: Number[process.env.DB_PORT],
+      port: Number(process.env.DB_PORT) || 5432,
       username: process.env.DB_USERNAME,
       entities: [`${__dirname}/**/*.entity{.js,.ts}`],
       migrations: [`${__dirname}/migration/{*.js,.ts}`],
       migrationsRun: true,
+      synchronize: true,
     }),
     UserModule,
+    RatingModule,
   ],
   controllers: [],
   providers: [],

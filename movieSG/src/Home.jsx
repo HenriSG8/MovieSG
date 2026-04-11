@@ -3,12 +3,6 @@ import api from "./services/api";
 import {Link} from 'react-router-dom';
 import './css/Home2.css';
 
-
-
-
-//URL da api :/movie/now_playing?api_key=7fbee966dcca15e34a84ff539e33c11b&languege=pt-BR
-
-
 export default function Home() {
   
   const [filmes, setfilmes ] = useState([]);
@@ -33,143 +27,100 @@ export default function Home() {
         params: {
           api_key: "7fbee966dcca15e34a84ff539e33c11b",
           language: "pt-BR",
-          page: 2, // Página 2 (ou outra página) para carregar mais filmes
+          page: 2,
         },
       });
   
-      setfilmes2(response.data.results.slice(0, 8)); // Ou a quantidade desejada de filmes
+      setfilmes2(response.data.results.slice(0, 8));
     }
   
-    
     async function loadFilmes3() {
         const response = await api.get("movie/top_rated", {
           params: {
             api_key: "7fbee966dcca15e34a84ff539e33c11b",
             language: "pt-BR",
-            page: 3, // Página 2 (ou outra página) para carregar mais filmes
+            page: 3,
           },
         });
     
-        setfilmes3(response.data.results.slice(0, 8)); // Ou a quantidade desejada de filmes
+        setfilmes3(response.data.results.slice(0, 8));
       }
 
-
-    
-    
     loadFilmes();
     loadFilmes2();
     loadFilmes3();
     
-    
-
-
-    // Carrega filmes para container2
   }, []);
 
-
-
-
-    
-  
-  
   return (
-            <div className="container">
-
-      
-
-<h1 className="name-categori"> Destaques </h1>
-    
-    <div className="lista-filmes">
-    {filmes.map((filme) => (
-      <article key={filme.id} className="filme-item">
-        
-        
-         
-        
-         <div className="imgFilme"> 
-
-         <div className="titulos"> <strong className="title-filme" >{filme.title}</strong> </div>   
-         
-         <img className="img1" src={`https://image.tmdb.org/t/p/original/${filme.poster_path}`}alt={filme.title}/> 
-         
-         
-         
-         
-         </div>
-        
-        
-        <Link to={`/Filmee/${filme.id}`} className="acessar-link">
-          Acessar
-        </Link>
-      </article>
-    ))}
-  </div>
-
-
-  <div className="container">
-  
-        <h1 className="name-categori">Filmes Populares </h1>
-  
-        <div className="lista-filmes">
-    {filmes2.map((filme) => (
-      <article key={filme.id} className="filme-item">
-        
-        
-         
-        
-         <div className="imgFilme2"> 
-
-         <div className="titulos"> <strong className="title-filme" >{filme.title}</strong> </div>  
-        
-         <img className="img2" src={`https://image.tmdb.org/t/p/original/${filme.poster_path}`}alt={filme.title}/> 
-         
-         </div>
-        
-        
-        <Link to={`/Filmee/${filme.id}`} className="acessar-link">
-          Acessar
-        </Link>
-      </article>
-    ))}
-  </div>
-</div>
-
-<div className="container">
-  
-        <h1 className="name-categori">Filmes Mais Votados </h1>
-  
-        <div className="lista-filmes">
-    {filmes3.map((filme) => (
-      <article key={filme.id} className="filme-item">
-        
-        
-         
-        
-         <div className="imgFilme3">
-         
-         <div className="titulos"> <strong className="title-filme" >{filme.title}</strong> </div>   
-
-          <img  className="img3" src={`https://image.tmdb.org/t/p/original/${filme.poster_path}`}alt={filme.title}/>
-          
-          
-           </div>
-        
-        
-        <Link to={`/Filmee/${filme.id}`} className="acessar-link">
-          Acessar
-        </Link>
-      </article>
-    ))}
-  </div>
-</div>
-
+    <div className="home-container">
+      {filmes.length > 0 && (
+        <section className="hero" style={{ 
+          backgroundImage: `var(--hero-overlay), url(https://image.tmdb.org/t/p/original/${filmes[0].backdrop_path})` 
+        }}>
+          <div className="hero-content">
+            <h1 className="hero-title">{filmes[0].title}</h1>
+            <p className="hero-overview">{filmes[0].overview.substring(0, 150)}...</p>
+            <div className="hero-buttons">
+              <Link to={`/Filmee/${filmes[0].id}`} className="btn-primary">Assistir Agora</Link>
+              <button className="btn-secondary" onClick={() => window.scrollTo({top: 800, behavior: 'smooth'})}>Ver Mais</button>
             </div>
+          </div>
+        </section>
+      )}
 
-       
+      <main className="content">
+        <section className="category-section">
+          <h2 className="section-title">Destaques</h2>
+          <div className="movie-grid">
+            {filmes.map((filme) => (
+              <article key={filme.id} className="movie-card">
+                <Link to={`/Filmee/${filme.id}`} className="card-inner">
+                  <img className="card-img" src={`https://image.tmdb.org/t/p/w500/${filme.poster_path}`} alt={filme.title} />
+                  <div className="card-overlay">
+                    <strong className="card-title">{filme.title}</strong>
+                    <span className="card-link">Detalhes</span>
+                  </div>
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
 
+        <section className="category-section">
+          <h2 className="section-title">Populares</h2>
+          <div className="movie-grid">
+            {filmes2.map((filme) => (
+              <article key={filme.id} className="movie-card">
+                <Link to={`/Filmee/${filme.id}`} className="card-inner">
+                  <img className="card-img" src={`https://image.tmdb.org/t/p/w500/${filme.poster_path}`} alt={filme.title} />
+                  <div className="card-overlay">
+                    <strong className="card-title">{filme.title}</strong>
+                    <span className="card-link">Detalhes</span>
+                  </div>
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
 
-
-
-    );
+        <section className="category-section">
+          <h2 className="section-title">Mais Votados</h2>
+          <div className="movie-grid">
+            {filmes3.map((filme) => (
+              <article key={filme.id} className="movie-card">
+                <Link to={`/Filmee/${filme.id}`} className="card-inner">
+                  <img className="card-img" src={`https://image.tmdb.org/t/p/w500/${filme.poster_path}`} alt={filme.title} />
+                  <div className="card-overlay">
+                    <strong className="card-title">{filme.title}</strong>
+                    <span className="card-link">Detalhes</span>
+                  </div>
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
+      </main>
+    </div>
+  );
 }
-

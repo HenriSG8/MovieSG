@@ -17,14 +17,15 @@ export default function Cadastro(){
         const cleanedFullname  = DOMPurify.sanitize(fullName);
         const cleanedUsername  = DOMPurify.sanitize(username);
 
-        const formData = new FormData();
-        formData.append('email', cleanedEmail);
-        formData.append('full_name', cleanedFullname);
-        formData.append('username', cleanedUsername);
-        formData.append('password', password);
+        const payload = {
+            email: cleanedEmail,
+            full_name: cleanedFullname,
+            username: cleanedUsername,
+            password: password
+        };
 
         try {
-            const response = await axios.post('http://localhost:3000/user/registerUser', formData, {
+            const response = await axios.post('http://192.168.0.236:3000/user/registerUser', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -39,41 +40,53 @@ export default function Cadastro(){
         }
     }
     
-    return(
-        <div className="Login-conteiner">
-             
-            <h1> Cadastre-se</h1>
-            <form  className="form" onSubmit={handleSubmit} >
-                <input
-                type="email"
-                placeholder="Digite seu email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value) } 
-                />
-                <input
-                type="text"
-                placeholder="Digite seu nome completo"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value) } 
-                />
-                <input
-                type="text"
-                placeholder="Digite seu username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value) } 
-                />
-                <input
-                type="password"
-                placeholder="*****"
-                value={password}
-                onChange={(e) => setPassword(e.target.value) } 
-                />
-                <button type="submit"  > Registrar </button>
-            </form>
-            <Link className="Button-link" to="/Login">
-            Já possui uma conta? Faça login
-            </Link>
+    return (
+        <div className="Login_mainDiv">
+            <div id="wrapper">
+                <h1 id="LoginFormTitle">Cadastre-se</h1>
+                <form className="form" onSubmit={handleSubmit}>
+                    <input
+                        className="login_inputField"
+                        type="email"
+                        placeholder="E-mail"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        style={{ marginBottom: '15px' }}
+                    />
+                    <input
+                        className="login_inputField"
+                        type="text"
+                        placeholder="Nome Completo"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        style={{ marginBottom: '15px' }}
+                    />
+                    <input
+                        className="login_inputField"
+                        type="text"
+                        placeholder="Usuário"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        style={{ marginBottom: '15px' }}
+                    />
+                    <input
+                        className="login_inputField"
+                        type="password"
+                        placeholder="Senha"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        style={{ marginBottom: '20px' }}
+                    />
+                    <button type="submit" id="submitBtn">Registrar</button>
+                </form>
+                {message && <p className="alert alert-info">{message}</p>}
+                <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                    <Link className="nav-link" to="/Login" style={{ fontSize: '0.9rem', color: 'var(--primary)' }}>
+                        Já possui uma conta? Faça login
+                    </Link>
+                </div>
+            </div>
         </div>
-    )
+    );
 }
 

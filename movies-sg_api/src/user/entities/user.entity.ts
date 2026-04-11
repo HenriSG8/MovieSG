@@ -1,25 +1,26 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({name: 'users'})
+@Entity({ name: 'usuarios' })
 export class User {
 
-    @PrimaryGeneratedColumn('rowid')
-    id: Number;
+    @PrimaryGeneratedColumn('increment')
+    id: number;
 
-    @Column({name: 'full_name'})
+    @Column({ name: 'nome_completo' })
     full_name: string;
 
-    @Column({name: 'username'})
+    @Column({ name: 'usuario', unique: true })
     username: string;
 
-    @Column({name: 'email'})
+    @Column({ name: 'email', unique: true })
     email: string;
 
-    @Column({name: 'password'})
+    @Column({ name: 'senha' })
     password: string;
 
-    @Column({name: 'userToken'})
+    @Column({ name: 'userToken', nullable: true })
     userToken: string;
 
-
+    @CreateDateColumn({ name: 'data_criacao' })
+    data_criacao: Date;
 }

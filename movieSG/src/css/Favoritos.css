@@ -1,105 +1,98 @@
 .meus-filmes {
-  margin-top: 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.meus-filmes h1 {
-  margin-bottom: 30px;
-}
-
-.meus-filmes span {
-  font-size: 28px; /* Reduz o tamanho da fonte */
-  text-align: center; /* Alinha o texto no centro */
- 
-
-}
-
-.meus-filmes ul {
-  background-color: #e0e0e0;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 800px;
-  list-style-type: none;
-  padding: 20px; /* Reduz o espaçamento interno */
-  margin: 0;
-  margin-bottom: 10px;
-}
-
-.meus-filmes ul li {
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 14px;
-  padding: 15px;
-  border: 2px solid #007bff; /* Borda mais destacada */
-  border-radius: 15px;
-
-}
-
-.link {
-  
-  width: 70px;
-  max-width: 100%;
-  border-radius: 70px;
-  
-
-  border: 15px solid #007bff;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-  margin: 60px;
-
-
-}
-
-.meus-filmes div {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-}
-
-
-
-.bntfav {
-  border: 15px solid #007bff;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-  
-}
-
-/* Estilos para o modo escuro */
-body.dark .meus-filmes,
-body.dark .meus-filmes h1,
-body.dark .meus-filmes span,
-body.dark .meus-filmes ul,
-body.dark .meus-filmes ul li,
-body.dark .meus-filmes div {
-  background-color: #333; /* Cor de fundo escura */
-  color: #fff; /* Cor do texto clara */
+  padding: 120px 5% 50px;
+  min-height: 100vh;
+  background-color: var(--bg-body);
 }
 
 .titulo {
-  text-align: center; /* Centraliza o texto horizontalmente */
-  margin: 20px;
-  margin-top: 50px;
-  font-size: 36px; /* Tamanho de fonte maior */
-  font-weight: bold;
-  background-color: #f7f7f7;
-  padding: 15px;
-  border: 2px solid #007bff; /* Borda mais destacada */
-  border-radius: 15px;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 40px;
+  text-align: center;
+  color: var(--text-main);
+}
+
+.meus-filmes ul {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  list-style: none;
+}
+
+.meus-filmes li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 25px;
+  background-color: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: var(--transition);
+}
+
+.meus-filmes li:hover {
+  transform: translateX(5px);
+  border-color: rgba(0, 210, 255, 0.2);
 }
 
 .imgf {
-    height: 200px;
-    width: 140px;
-  }
+  width: 60px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
 
+.titlef {
+  flex: 1;
+  margin: 0 30px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.meus-filmes li div {
+  display: flex;
+  gap: 15px;
+}
+
+.link {
+  padding: 8px 16px;
+  background-color: #333;
+  color: #fff;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.link:hover {
+  background-color: #444;
+}
+
+.bntfav {
+  padding: 8px 16px;
+  background-color: rgba(255, 0, 0, 0.1);
+  color: #ff4d4d;
+  border: 1px solid rgba(255, 0, 0, 0.2);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.bntfav:hover {
+  background-color: #ff4d4d;
+  color: #fff;
+}
+
+@media (max-width: 600px) {
+  .meus-filmes li {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  .titlef {
+    margin: 0;
+  }
+}
