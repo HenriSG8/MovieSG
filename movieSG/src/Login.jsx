@@ -1,6 +1,6 @@
 import DOMPurify from 'dompurify';
 import React, { useState } from 'react';
-import axios from 'axios';
+import backendApi from './services/backendApi';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,7 +30,7 @@ const Login = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:3001/user/signIn', payload, {
+      const response = await backendApi.post('/user/signIn', payload, {
         headers: {
           'Content-Type': 'application/json',
         },

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from 'axios';
+import backendApi from './services/backendApi';
 import {Link} from 'react-router-dom'
 import DOMPurify from 'dompurify';
 
@@ -25,7 +25,7 @@ export default function Cadastro(){
         };
 
         try {
-            const response = await axios.post('http://localhost:3001/user/registerUser', payload, {
+            const response = await backendApi.post('/user/registerUser', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
