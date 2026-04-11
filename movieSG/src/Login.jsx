@@ -4,12 +4,12 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 
-import './css/login.css';
+import './css/Login.css';
 
 const sanitizeEmail = (email) => DOMPurify.sanitize(email);
 
 const Login = () => {
-  
+
 
   const [state, setState] = useState({
     email: '',
