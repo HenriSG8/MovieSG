@@ -25,7 +25,7 @@ export default function Cadastro(){
         };
 
         try {
-            const response = await axios.post('http://192.168.0.236:3000/user/registerUser', payload, {
+            const response = await axios.post('http://localhost:3001/user/registerUser', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
