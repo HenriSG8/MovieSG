@@ -30,7 +30,7 @@ const Login = () => {
     };
 
     try {
-      const response = await axios.post('http://185.225.233.145:3001/user/signIn', payload, {
+      const response = await axios.post('http://localhost:3001/user/signIn', payload, {
         headers: {
           'Content-Type': 'application/json',
         },
