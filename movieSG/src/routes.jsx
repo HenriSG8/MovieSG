@@ -8,6 +8,8 @@ import Favoritos from "./Favoritos";
 import Filmee from "./Filmee";
 import Pesquisa from "./Pesquisa";
 
+import Amizades from "./Amizades";
+
 export default function RoutesApp(){
 
 return(
@@ -21,6 +23,7 @@ return(
         <Route path="/Login" element={<Login />} />
         <Route path="/Cadastro" element={<Cadastro />} />
         <Route path="/Favoritos" element={<Favoritos />} />
+        <Route path="/Amizades" element={<Amizades />} />
         <Route path="/Pesquisar/:query" element={<Pesquisa />} />
       </Routes>
     </BrowserRouter>

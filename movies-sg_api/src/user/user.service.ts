@@ -66,4 +66,15 @@ export class UserService {
         }
     }
 
+    async searchByUsername(query: string): Promise<User[]> {
+        try {
+            return this.userRepository.createQueryBuilder('user')
+                .where('user.username ILIKE :query', { query: `%${query}%` })
+                .select(['user.id', 'user.username', 'user.full_name'])
+                .getMany();
+        } catch (error) {
+            throw new InternalServerErrorException('Error searching user');
+        }
+    }
+
 }

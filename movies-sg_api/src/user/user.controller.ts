@@ -50,4 +50,9 @@ export class UserController {
             res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Not Authorized' });
         }
     }
+
+    @Get('/search/:username')
+    async searchUser(@Param('username') username: string) {
+        return this.userService.searchByUsername(username);
+    }
 }
