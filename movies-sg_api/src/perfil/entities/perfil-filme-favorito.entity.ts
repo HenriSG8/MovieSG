@@ -9,7 +9,7 @@ export class PerfilFilmeFavorito {
     @Column({ name: 'perfil_id' })
     perfilId: number;
 
-    @Column({ name: 'movie_id' })
+    @Column({ name: 'movie_id', type: 'bigint' })
     movieId: number;
 
     @Column({ name: 'movie_title', length: 255 })

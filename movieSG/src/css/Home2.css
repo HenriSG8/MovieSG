@@ -177,3 +177,49 @@
     gap: 15px;
   }
 }
+
+/* Seção: Aprovados pelos Amigos */
+.friends-recs-section {
+  background: linear-gradient(135deg, rgba(0, 210, 255, 0.05) 0%, rgba(0, 123, 255, 0.05) 100%);
+  border: 1px solid rgba(0, 210, 255, 0.12);
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 60px;
+}
+
+.friends-recs-subtitle {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--text-dim);
+  margin-top: 4px;
+  padding-left: 20px;
+  border-left: none;
+}
+
+.friends-rec-card {
+  border: 1px solid rgba(0, 210, 255, 0.15);
+}
+
+.friends-rec-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 210, 255, 0.15);
+  transform: translateY(-4px);
+}
+
+.friends-rec-badge {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.friends-rec-score {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.friends-rec-friend {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.7);
+}

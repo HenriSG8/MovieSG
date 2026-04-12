@@ -2,8 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import backendApi from './services/backendApi';
+import api from './services/api';
 import { toast } from 'react-toastify';
 import './css/Perfil.css';
+
+const TMDB_API_KEY = '7fbee966dcca15e34a84ff539e33c11b';
 
 const GENEROS = ['Ação', 'Aventura', 'Animação', 'Comédia', 'Crime', 'Documentário', 'Drama', 'Fantasia', 'Ficção Científica', 'Horror', 'Musical', 'Romance', 'Suspense', 'Terror', 'Western'];
 
@@ -22,6 +25,9 @@ export default function Perfil() {
     const [generosSelecionados, setGenerosSelecionados] = useState([]);
     const [filmeInput, setFilmeInput] = useState('');
     const [filmesFavoritos, setFilmesFavoritos] = useState([]);
+    const [filmeBuscaResultados, setFilmeBuscaResultados] = useState([]);
+    const [buscandoFilme, setBuscandoFilme] = useState(false);
+    const filmeSearchTimeout = useRef(null);
 
     useEffect(() => {
         if (!user) {
@@ -86,10 +92,44 @@ export default function Perfil() {
         );
     };
 
-    const adicionarFilme = () => {
-        if (!filmeInput.trim()) return;
-        setFilmesFavoritos(prev => [...prev, { movieId: Date.now(), movieTitle: filmeInput.trim(), moviePoster: '' }]);
+    const filmeCounter = React.useRef(1);
+
+    const handleFilmeInputChange = (e) => {
+        const value = e.target.value;
+        setFilmeInput(value);
+        setFilmeBuscaResultados([]);
+        if (filmeSearchTimeout.current) clearTimeout(filmeSearchTimeout.current);
+        if (!value.trim()) return;
+        filmeSearchTimeout.current = setTimeout(() => buscarFilmesTMDB(value), 500);
+    };
+
+    const buscarFilmesTMDB = async (query) => {
+        setBuscandoFilme(true);
+        try {
+            const res = await api.get('search/movie', {
+                params: { api_key: TMDB_API_KEY, language: 'pt-BR', query, page: 1, include_adult: false }
+            });
+            setFilmeBuscaResultados(res.data.results.slice(0, 6));
+        } catch (e) {
+            console.error('Erro ao buscar filmes TMDB', e);
+        } finally {
+            setBuscandoFilme(false);
+        }
+    };
+
+    const selecionarFilme = (filme) => {
+        const jaAdicionado = filmesFavoritos.some(f => f.movieId === filme.id);
+        if (jaAdicionado) {
+            toast.info('Este filme já está na sua lista!');
+            return;
+        }
+        setFilmesFavoritos(prev => [...prev, {
+            movieId: filme.id,
+            movieTitle: filme.title,
+            moviePoster: filme.poster_path ? `https://image.tmdb.org/t/p/w200/${filme.poster_path}` : ''
+        }]);
         setFilmeInput('');
+        setFilmeBuscaResultados([]);
     };
 
     const removerFilme = (movieId) => {
@@ -174,19 +214,38 @@ export default function Perfil() {
                 {/* Filmes Favoritos */}
                 <div className="perfil-section">
                     <h2>Filmes Favoritos</h2>
-                    <div className="filme-input-row">
+                    <div className="filme-busca-wrapper">
                         <input
-                            type="text" className="perfil-input" placeholder="Digite o nome do filme..."
-                            value={filmeInput} onChange={e => setFilmeInput(e.target.value)}
-                            onKeyDown={e => e.key === 'Enter' && adicionarFilme()}
+                            type="text" className="perfil-input" placeholder="Busque um filme para adicionar..."
+                            value={filmeInput} onChange={handleFilmeInputChange}
                         />
-                        <button className="btn-add-filme" onClick={adicionarFilme}>Adicionar</button>
+                        {buscandoFilme && <p className="filme-buscando">Buscando...</p>}
+                        {filmeBuscaResultados.length > 0 && (
+                            <div className="filme-dropdown">
+                                {filmeBuscaResultados.map(f => (
+                                    <div key={f.id} className="filme-dropdown-item" onClick={() => selecionarFilme(f)}>
+                                        {f.poster_path
+                                            ? <img src={`https://image.tmdb.org/t/p/w92/${f.poster_path}`} alt={f.title} />
+                                            : <div className="filme-dropdown-no-img">🎬</div>
+                                        }
+                                        <div>
+                                            <p className="filme-dropdown-title">{f.title}</p>
+                                            <p className="filme-dropdown-year">{f.release_date?.slice(0,4)}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                     <div className="filmes-lista">
                         {filmesFavoritos.map(f => (
-                            <div key={f.movieId} className="filme-tag">
-                                🎬 {f.movieTitle}
-                                <button onClick={() => removerFilme(f.movieId)}>✕</button>
+                            <div key={f.movieId} className="filme-favorito-card">
+                                {f.moviePoster
+                                    ? <img src={f.moviePoster} alt={f.movieTitle} className="filme-favorito-poster" />
+                                    : <div className="filme-favorito-no-poster">🎬</div>
+                                }
+                                <span className="filme-favorito-titulo">{f.movieTitle}</span>
+                                <button className="filme-favorito-remover" onClick={() => removerFilme(f.movieId)}>✕</button>
                             </div>
                         ))}
                     </div>

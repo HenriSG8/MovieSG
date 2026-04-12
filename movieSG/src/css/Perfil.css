@@ -176,65 +176,147 @@ label {
   font-weight: 700;
 }
 
-/* Filmes favoritos */
-.filme-input-row {
+/* Filmes favoritos — busca TMDB */
+.filme-busca-wrapper {
+  position: relative;
+}
+
+.filme-buscando {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  margin: 6px 0 0;
+}
+
+.filme-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.filme-dropdown-item {
   display: flex;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
-.btn-add-filme {
-  padding: 12px 20px;
-  background-color: var(--primary);
-  color: #000;
-  border: none;
-  border-radius: 8px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
   cursor: pointer;
-  font-weight: 700;
-  white-space: nowrap;
   transition: var(--transition);
+  border-bottom: 1px solid var(--border);
 }
 
-.btn-add-filme:hover {
-  filter: brightness(1.2);
-  transform: translateY(-2px);
+.filme-dropdown-item:last-child {
+  border-bottom: none;
 }
 
+.filme-dropdown-item:hover {
+  background-color: var(--input-bg);
+}
+
+.filme-dropdown-item img {
+  width: 36px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.filme-dropdown-no-img {
+  width: 36px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--input-bg);
+  border-radius: 4px;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.filme-dropdown-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.filme-dropdown-year {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin: 2px 0 0;
+}
+
+/* Cards dos filmes selecionados */
 .filmes-lista {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
+  margin-top: 16px;
 }
 
-.filme-tag {
+.filme-favorito-card {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
+  gap: 10px;
+  padding: 8px 12px 8px 8px;
   background-color: var(--input-bg);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  color: var(--text-main);
-  font-size: 0.85rem;
+  border-radius: 10px;
   transition: var(--transition);
+  max-width: 220px;
 }
 
-.filme-tag:hover {
-  border-color: rgba(0, 210, 255, 0.3);
+.filme-favorito-card:hover {
+  border-color: var(--primary);
 }
 
-.filme-tag button {
+.filme-favorito-poster {
+  width: 32px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.filme-favorito-no-poster {
+  width: 32px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-card);
+  border-radius: 4px;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.filme-favorito-titulo {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-main);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.filme-favorito-remover {
   background: none;
   border: none;
   color: var(--text-dim);
   cursor: pointer;
   font-size: 0.9rem;
   padding: 0;
-  line-height: 1;
+  flex-shrink: 0;
   transition: var(--transition);
 }
 
-.filme-tag button:hover {
+.filme-favorito-remover:hover {
   color: #ff4d4d;
 }
 

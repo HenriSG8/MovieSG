@@ -3,12 +3,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Rating } from './entities/rating.entity';
 import { RatingDto } from './dtos/rating.dto';
+import { Friendship, FriendshipStatus } from '../friendship/entities/friendship.entity';
 
 @Injectable()
 export class RatingService {
   constructor(
     @InjectRepository(Rating)
     private readonly ratingRepository: Repository<Rating>,
+    @InjectRepository(Friendship)
+    private readonly friendshipRepository: Repository<Friendship>,
   ) {}
 
   async createOrUpdate(ratingDto: any): Promise<Rating> {
@@ -69,5 +72,47 @@ export class RatingService {
       where: { usuarioId: userId },
       order: { id: 'DESC' }
     });
+  }
+
+  async getFriendsRecommendations(userId: number): Promise<any[]> {
+    // 1. Busca todas as amizades aceitas do user
+    const friendships = await this.friendshipRepository.find({
+      where: [
+        { requesterId: userId, status: FriendshipStatus.ACCEPTED },
+        { addresseeId: userId, status: FriendshipStatus.ACCEPTED },
+      ],
+      relations: ['requester', 'addressee'],
+    });
+
+    if (friendships.length === 0) return [];
+
+    // 2. Monta a lista de IDs dos amigos
+    const friendIds = friendships.map(f =>
+      f.requesterId === userId ? f.addresseeId : f.requesterId
+    );
+
+    // 3. Busca notas >= 7 de qualquer um desses amigos
+    const ratings = await this.ratingRepository
+      .createQueryBuilder('rating')
+      .leftJoinAndSelect('rating.user', 'user')
+      .where('rating.usuario_id IN (:...friendIds)', { friendIds })
+      .andWhere('rating.nota >= :minScore', { minScore: 7 })
+      .orderBy('rating.nota', 'DESC')
+      .getMany();
+
+    // 4. Remove filmes duplicados (se dois amigos avaliaram o mesmo)
+    const seen = new Set<number>();
+    const unique = ratings.filter(r => {
+      if (seen.has(r.filmeId)) return false;
+      seen.add(r.filmeId);
+      return true;
+    });
+
+    return unique.map(r => ({
+      movieId: r.filmeId,
+      score: Number(r.nota),
+      friendName: r.user?.username || 'Amigo',
+      friendId: r.usuarioId,
+    }));
   }
 }

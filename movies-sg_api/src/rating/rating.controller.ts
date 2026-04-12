@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
 import { RatingService } from './rating.service';
 import { RatingDto } from './dtos/rating.dto';
 import { Rating } from './entities/rating.entity';
@@ -28,5 +28,10 @@ export class RatingController {
   @Get('/user/:userId')
   async getUserRatings(@Param('userId') userId: number): Promise<Rating[]> {
     return this.ratingService.findAllByUser(userId);
+  }
+
+  @Get('/friends-recommendations/:userId')
+  async getFriendsRecommendations(@Param('userId', ParseIntPipe) userId: number) {
+    return this.ratingService.getFriendsRecommendations(userId);
   }
 }
