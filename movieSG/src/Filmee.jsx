@@ -5,6 +5,7 @@ import backendApi from "./services/backendApi";
 import '../src/css/filmee-info.css'
 import { toast } from 'react-toastify'
 import Cookies from 'universal-cookie';
+import StreamPlayer from './StreamPlayer';
 
 function Filmee() {
     const {id} = useParams();
@@ -16,6 +17,11 @@ function Filmee() {
     const[ userScore, setUserScore] = useState(0);
     const[ userComment, setUserComment] = useState('');
     const[ ratingSummary, setRatingSummary] = useState({ average: 0, count: 0 });
+    const[ showPlayer, setShowPlayer] = useState(false);
+    const[ imdbId, setImdbId] = useState(null);
+
+    const cookieData = cookies.get('accessToken');
+    const isLoggedIn = cookieData && cookieData.id;
   
     useEffect(()=>{
     async function loadFilme(){
@@ -64,9 +70,25 @@ function Filmee() {
       }
     }
 
+    async function loadImdbId() {
+      try {
+        const response = await api.get(`/movie/${id}/external_ids`, {
+          params: {
+            api_key: "7fbee966dcca15e34a84ff539e33c11b",
+          }
+        });
+        if (response.data && response.data.imdb_id) {
+          setImdbId(response.data.imdb_id);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar IMDb ID:", error);
+      }
+    }
+
     loadFilme();
     loadUserRating();
     loadRatingSummary();
+    loadImdbId();
 
     return() =>{
       console.log("COMPONENTE FOI DESMONTADO")
@@ -181,6 +203,11 @@ function Filmee() {
                   Trailer
                 </a>
               </button>
+              {imdbId && isLoggedIn && (
+                <button className='bnt-stream' onClick={() => setShowPlayer(true)}>
+                  ▶ Assistir
+                </button>
+              )}
             </div>
 
             <div className='user-rating-section'>
@@ -212,6 +239,15 @@ function Filmee() {
             </div>
           </div>
         </div>
+
+        {/* Stream Player Modal */}
+        {showPlayer && imdbId && (
+          <StreamPlayer
+            imdbId={imdbId}
+            movieTitle={filme.title}
+            onClose={() => setShowPlayer(false)}
+          />
+        )}
       </div>
     );
 }
