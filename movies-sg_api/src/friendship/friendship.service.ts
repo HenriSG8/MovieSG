@@ -12,7 +12,7 @@ export class FriendshipService {
 
     async sendRequest(requesterId: number, addresseeId: number): Promise<Friendship> {
         if (requesterId === addresseeId) {
-            throw new BadRequestException('You cannot send a friend request to yourself');
+            throw new BadRequestException('Você não pode enviar um pedido de amizade para si mesmo');
         }
 
         const existing = await this.friendshipRepository.findOne({
@@ -23,7 +23,7 @@ export class FriendshipService {
         });
 
         if (existing) {
-            throw new BadRequestException('Friendship or request already exists');
+            throw new BadRequestException('Esta amizade ou pedido já existe');
         }
 
         const friendship = this.friendshipRepository.create({
@@ -39,11 +39,11 @@ export class FriendshipService {
         const friendship = await this.friendshipRepository.findOne({ where: { id: friendshipId }});
         
         if (!friendship) {
-            throw new NotFoundException('Friend request not found');
+            throw new NotFoundException('Pedido de amizade não encontrado');
         }
 
         if (friendship.addresseeId !== userId) {
-            throw new BadRequestException('You can only respond to requests sent to you');
+            throw new BadRequestException('Você só pode responder a pedidos enviados para você');
         }
 
         friendship.status = status;

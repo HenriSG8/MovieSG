@@ -7,10 +7,14 @@ export default function Categoria() {
     const { id, name } = useParams();
     const [filmes, setFilmes] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loadingMore, setLoadingMore] = useState(false);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
 
     useEffect(() => {
-        async function loadFilmesPorCategoria() {
+        async function loadInitialFilmes() {
             setLoading(true);
+            setPage(1);
             try {
                 const response = await api.get("discover/movie", {
                     params: {
@@ -22,6 +26,7 @@ export default function Categoria() {
                     },
                 });
                 setFilmes(response.data.results);
+                setHasMore(response.data.page < response.data.total_pages);
             } catch (error) {
                 console.error("Erro ao buscar filmes por categoria: ", error);
             } finally {
@@ -30,9 +35,36 @@ export default function Categoria() {
         }
 
         if (id) {
-            loadFilmesPorCategoria();
+            loadInitialFilmes();
         }
     }, [id]);
+
+    async function handleLoadMore() {
+        if (loadingMore || !hasMore) return;
+        
+        setLoadingMore(true);
+        const nextPage = page + 1;
+        
+        try {
+            const response = await api.get("discover/movie", {
+                params: {
+                    api_key: "7fbee966dcca15e34a84ff539e33c11b",
+                    language: "pt-BR",
+                    with_genres: id,
+                    sort_by: "popularity.desc",
+                    page: nextPage,
+                },
+            });
+            
+            setFilmes(prev => [...prev, ...response.data.results]);
+            setPage(nextPage);
+            setHasMore(response.data.page < response.data.total_pages);
+        } catch (error) {
+            console.error("Erro ao carregar mais filmes: ", error);
+        } finally {
+            setLoadingMore(false);
+        }
+    }
 
     return (
         <div className="home-container">
@@ -45,26 +77,40 @@ export default function Categoria() {
                     {loading ? (
                         <div style={{ textAlign: "center", padding: "50px 0" }}>Carregando filmes...</div>
                     ) : filmes.length > 0 ? (
-                        <div className="movie-grid">
-                            {filmes.map((filme) => (
-                                <article key={filme.id} className="movie-card">
-                                    <Link to={`/Filmee/${filme.id}`} className="card-inner">
-                                        <img
-                                            className="card-img"
-                                            src={filme.poster_path
-                                                ? `https://image.tmdb.org/t/p/w500/${filme.poster_path}`
-                                                : 'https://via.placeholder.com/500x750?text=Imagem+Indispon%C3%ADvel'
-                                            }
-                                            alt={filme.title}
-                                        />
-                                        <div className="card-overlay">
-                                            <strong className="card-title">{filme.title}</strong>
-                                            <span className="card-link">Detalhes</span>
-                                        </div>
-                                    </Link>
-                                </article>
-                            ))}
-                        </div>
+                        <>
+                            <div className="movie-grid">
+                                {filmes.map((filme, index) => (
+                                    <article key={`${filme.id}-${index}`} className="movie-card">
+                                        <Link to={`/Filmee/${filme.id}`} className="card-inner">
+                                            <img
+                                                className="card-img"
+                                                src={filme.poster_path
+                                                    ? `https://image.tmdb.org/t/p/w500/${filme.poster_path}`
+                                                    : 'https://via.placeholder.com/500x750?text=Imagem+Indispon%C3%ADvel'
+                                                }
+                                                alt={filme.title}
+                                            />
+                                            <div className="card-overlay">
+                                                <strong className="card-title">{filme.title}</strong>
+                                                <span className="card-link">Detalhes</span>
+                                            </div>
+                                        </Link>
+                                    </article>
+                                ))}
+                            </div>
+                            
+                            {hasMore && (
+                                <div className="load-more-container">
+                                    <button 
+                                        className="btn-load-more" 
+                                        onClick={handleLoadMore}
+                                        disabled={loadingMore}
+                                    >
+                                        {loadingMore ? "Carregando..." : "Ver Mais Filmes"}
+                                    </button>
+                                </div>
+                            )}
+                        </>
                     ) : (
                         <div style={{ textAlign: "center", padding: "50px 0", fontSize: "1.2rem" }}>
                             Nenhum filme encontrado para a categoria "{name}".

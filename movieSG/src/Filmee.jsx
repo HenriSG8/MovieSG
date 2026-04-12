@@ -103,7 +103,8 @@ function Filmee() {
         setRatingSummary(response.data);
       }
     } catch (error) {
-      toast.error("Erro ao salvar avaliação.");
+      const msg = error.response?.data?.message || "Erro de conexão com o servidor. Tente novamente.";
+      toast.error(msg);
       console.error(error);
     }
   }

@@ -32,7 +32,7 @@ export default function Amizades() {
             setPendingReceived(response.data.pendingReceived);
             setPendingSent(response.data.pendingSent);
         } catch (error) {
-            console.error("Failed to load friendships", error);
+            console.error("Erro ao carregar amizades", error);
         }
     };
 
@@ -57,7 +57,8 @@ export default function Amizades() {
             toast.success("Solicitação enviada!");
             loadFriendships();
         } catch (error) {
-            toast.error(error.response?.data?.message || "Erro ao enviar solicitação");
+            const msg = error.response?.data?.message || "Erro de conexão com o servidor. Tente novamente.";
+            toast.error(msg);
         }
     };
 
@@ -72,7 +73,8 @@ export default function Amizades() {
             if (status === 'REJECTED') toast.info("Solicitação recusada.");
             loadFriendships();
         } catch (error) {
-            toast.error("Erro ao responder solicitação");
+            const msg = error.response?.data?.message || "Erro de conexão com o servidor. Tente novamente.";
+            toast.error(msg);
         }
     };
 
@@ -105,9 +107,29 @@ export default function Amizades() {
                                             <p className="friend-username">@{resultuser.username}</p>
                                         </div>
                                     </div>
-                                    <button className="add-friend-btn" onClick={() => addFriend(resultuser.id)}>
-                                        Adicionar
-                                    </button>
+                                    {friends.some(f => f.userId === resultuser.id) ? (
+                                        <button 
+                                            className="add-friend-btn ver-perfil-btn" 
+                                            onClick={() => navigate(`/PerfilAmigo/${resultuser.id}`)}
+                                        >
+                                            Ver Perfil
+                                        </button>
+                                    ) : pendingSent.some(f => f.userId === resultuser.id) ? (
+                                        <button className="add-friend-btn pending-btn" disabled>
+                                            Pendente
+                                        </button>
+                                    ) : pendingReceived.some(f => f.userId === resultuser.id) ? (
+                                        <button 
+                                            className="add-friend-btn respond-btn" 
+                                            onClick={() => navigate('/Amizades')} // Or just highlight the request below
+                                        >
+                                            Aceitar?
+                                        </button>
+                                    ) : (
+                                        <button className="add-friend-btn" onClick={() => addFriend(resultuser.id)}>
+                                            Adicionar
+                                        </button>
+                                    )}
                                 </div>
                             )
                         ))}
@@ -129,7 +151,7 @@ export default function Amizades() {
                                     </div>
                                 </div>
                                 <div className="action-buttons">
-                                    <button className="accept-btn" onClick={() => respondRequest(req.friendshipId, 'ACCEPTED')}>Acceptar</button>
+                                    <button className="accept-btn" onClick={() => respondRequest(req.friendshipId, 'ACCEPTED')}>Aceitar</button>
                                     <button className="reject-btn" onClick={() => respondRequest(req.friendshipId, 'REJECTED')}>Recusar</button>
                                 </div>
                             </div>

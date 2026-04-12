@@ -28,9 +28,9 @@ export class UserService {
             })
         } catch (error) {
             if (error.code == '23505') {
-                throw new ConflictException('Username or email already in use')
+                throw new ConflictException('Usuário ou e-mail já estão em uso')
             }
-            throw new InternalServerErrorException('Error in user register')
+            throw new InternalServerErrorException('Erro ao registrar usuário')
         }
     }
 
@@ -45,16 +45,16 @@ export class UserService {
 
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
-                throw new UnauthorizedException('Invalid credentials');
+                throw new UnauthorizedException('Credenciais inválidas');
             }
 
             if(!user.userToken) {
-                throw new UnauthorizedException('Token not found');
+                throw new UnauthorizedException('Token não encontrado');
             }
 
             return user.userToken;
         } catch (error) {
-            throw new UnauthorizedException('Invalid credentials');
+            throw new UnauthorizedException('Credenciais inválidas');
         }
     }
 
@@ -62,7 +62,7 @@ export class UserService {
         try {
             return this.userRepository.findOne({ where: { email } });
         } catch (error) {
-            throw new InternalServerErrorException('Error getting user by username')
+            throw new InternalServerErrorException('Erro ao buscar usuário pelo e-mail')
         }
     }
 
@@ -73,7 +73,7 @@ export class UserService {
                 .select(['user.id', 'user.username', 'user.full_name'])
                 .getMany();
         } catch (error) {
-            throw new InternalServerErrorException('Error searching user');
+            throw new InternalServerErrorException('Erro ao pesquisar usuário');
         }
     }
 

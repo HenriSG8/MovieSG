@@ -150,7 +150,8 @@ export default function Perfil() {
             toast.success('Perfil salvo com sucesso!');
             navigate('/');
         } catch (e) {
-            toast.error('Erro ao salvar perfil.');
+            const msg = e.response?.data?.message || 'Erro de conexão com o servidor ao salvar perfil.';
+            toast.error(msg);
         } finally {
             setSaving(false);
         }
