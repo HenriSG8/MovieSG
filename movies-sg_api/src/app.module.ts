@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RatingModule } from './rating/rating.module';
 import { FriendshipModule } from './friendship/friendship.module';
+import { PerfilModule } from './perfil/perfil.module';
 
 
 @Module({
@@ -26,6 +27,7 @@ import { FriendshipModule } from './friendship/friendship.module';
     UserModule,
     RatingModule,
     FriendshipModule,
+    PerfilModule,
   ],
   controllers: [],
   providers: [],

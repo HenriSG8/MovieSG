@@ -152,6 +152,12 @@ export default function Amizades() {
                                         <p className="friend-username">@{friend.username}</p>
                                     </div>
                                 </div>
+                                <button
+                                    className="add-friend-btn"
+                                    onClick={() => navigate(`/PerfilAmigo/${friend.userId}`)}
+                                >
+                                    Ver Perfil
+                                </button>
                             </div>
                         ))}
                     </div>

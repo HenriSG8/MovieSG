@@ -1,0 +1,201 @@
+.pamigo-page {
+  min-height: 100vh;
+  padding: 120px 5% 60px;
+  background-color: var(--bg-body);
+}
+
+.pamigo-loading {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-dim);
+  font-size: 1.1rem;
+}
+
+.pamigo-container {
+  max-width: 720px;
+  margin: 0 auto;
+  background-color: var(--bg-card);
+  border-radius: 15px;
+  padding: 40px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Cabeçalho */
+.pamigo-header {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 36px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+.pamigo-avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 3px solid var(--border);
+}
+
+.pamigo-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pamigo-avatar span {
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: #000;
+}
+
+.pamigo-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pamigo-nome {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.pamigo-username {
+  color: var(--text-dim);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.pamigo-idade {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  margin: 4px 0 0;
+}
+
+/* Seções */
+.pamigo-section {
+  margin-bottom: 32px;
+}
+
+.pamigo-section h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.pamigo-bio {
+  color: var(--text-dim);
+  font-size: 0.97rem;
+  line-height: 1.7;
+}
+
+/* Gêneros */
+.pamigo-generos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pamigo-genero-tag {
+  padding: 6px 16px;
+  border-radius: 20px;
+  background-color: var(--primary);
+  color: #000;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+/* Filmes */
+.pamigo-filmes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pamigo-filme-tag {
+  padding: 7px 16px;
+  background-color: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--text-main);
+  font-size: 0.85rem;
+  transition: var(--transition);
+}
+
+.pamigo-filme-tag:hover {
+  border-color: var(--primary);
+}
+
+/* Perfil não encontrado */
+.pamigo-not-found {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.pamigo-not-found span {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.pamigo-not-found h2 {
+  font-size: 1.4rem;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.pamigo-not-found p {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  margin-bottom: 24px;
+}
+
+/* Rodapé / Voltar */
+.pamigo-footer {
+  margin-top: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.pamigo-btn-voltar {
+  padding: 10px 24px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.pamigo-btn-voltar:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .pamigo-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  .pamigo-container {
+    padding: 24px 20px;
+  }
+  .pamigo-nome {
+    font-size: 1.4rem;
+  }
+}

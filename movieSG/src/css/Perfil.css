@@ -1,0 +1,310 @@
+.perfil-loading {
+  text-align: center;
+  padding: 120px 20px;
+  font-size: 1.2rem;
+  color: var(--text-dim);
+  background-color: var(--bg-body);
+  min-height: 100vh;
+}
+
+.perfil-page {
+  min-height: 100vh;
+  padding: 120px 5% 60px;
+  background-color: var(--bg-body);
+}
+
+.perfil-container {
+  max-width: 760px;
+  margin: 0 auto;
+  background-color: var(--bg-card);
+  border-radius: 15px;
+  padding: 40px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.perfil-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 40px;
+  color: var(--text-main);
+}
+
+/* Seções */
+.perfil-section {
+  margin-bottom: 36px;
+}
+
+.perfil-section h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: var(--text-main);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Foto */
+.foto-area {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 2px dashed var(--primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 0 auto 14px;
+  transition: var(--transition);
+  background-color: var(--input-bg);
+}
+
+.foto-area:hover {
+  border-color: var(--secondary);
+  transform: scale(1.02);
+}
+
+.foto-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.foto-placeholder {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  line-height: 2;
+}
+
+.btn-remover-foto {
+  display: block;
+  margin: 0 auto;
+  background: transparent;
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  color: #ff4d4d;
+  padding: 4px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: var(--transition);
+}
+.btn-remover-foto:hover {
+  background-color: rgba(255, 77, 77, 0.1);
+}
+
+/* Labels e Inputs */
+label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  margin-top: 14px;
+}
+
+.perfil-input {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-main);
+  font-size: 1rem;
+  transition: var(--transition);
+  box-sizing: border-box;
+  font-family: 'Outfit', sans-serif;
+}
+
+.perfil-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.1);
+}
+
+.perfil-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-main);
+  font-size: 1rem;
+  resize: vertical;
+  box-sizing: border-box;
+  font-family: 'Outfit', sans-serif;
+  transition: var(--transition);
+}
+
+.perfil-textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.1);
+}
+
+/* Gêneros */
+.generos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.genero-tag {
+  padding: 7px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.genero-tag:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.genero-tag.selected {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: #000;
+  font-weight: 700;
+}
+
+/* Filmes favoritos */
+.filme-input-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.btn-add-filme {
+  padding: 12px 20px;
+  background-color: var(--primary);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.btn-add-filme:hover {
+  filter: brightness(1.2);
+  transform: translateY(-2px);
+}
+
+.filmes-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filme-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background-color: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--text-main);
+  font-size: 0.85rem;
+  transition: var(--transition);
+}
+
+.filme-tag:hover {
+  border-color: rgba(0, 210, 255, 0.3);
+}
+
+.filme-tag button {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0;
+  line-height: 1;
+  transition: var(--transition);
+}
+
+.filme-tag button:hover {
+  color: #ff4d4d;
+}
+
+/* Botões de ação */
+.perfil-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-top: 16px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.btn-cancelar {
+  padding: 12px 28px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.btn-cancelar:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-salvar {
+  padding: 12px 28px;
+  background-color: var(--primary);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: var(--transition);
+}
+
+.btn-salvar:hover {
+  filter: brightness(1.2);
+  transform: translateY(-2px);
+}
+
+.btn-salvar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .perfil-container {
+    padding: 24px 20px;
+  }
+  .perfil-title {
+    font-size: 1.8rem;
+  }
+  .filme-input-row {
+    flex-direction: column;
+  }
+  .perfil-actions {
+    flex-direction: column;
+  }
+  .btn-cancelar,
+  .btn-salvar {
+    width: 100%;
+    text-align: center;
+  }
+}

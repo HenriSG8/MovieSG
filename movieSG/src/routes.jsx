@@ -9,6 +9,8 @@ import Filmee from "./Filmee";
 import Pesquisa from "./Pesquisa";
 
 import Amizades from "./Amizades";
+import Perfil from "./Perfil";
+import PerfilAmigo from "./PerfilAmigo";
 
 export default function RoutesApp(){
 
@@ -24,6 +26,8 @@ return(
         <Route path="/Cadastro" element={<Cadastro />} />
         <Route path="/Favoritos" element={<Favoritos />} />
         <Route path="/Amizades" element={<Amizades />} />
+        <Route path="/Perfil" element={<Perfil />} />
+        <Route path="/PerfilAmigo/:userId" element={<PerfilAmigo />} />
         <Route path="/Pesquisar/:query" element={<Pesquisa />} />
       </Routes>
     </BrowserRouter>
