@@ -132,10 +132,14 @@
   color: var(--text-main);
   font-size: 0.85rem;
   transition: var(--transition);
+  text-decoration: none;
+  display: inline-block;
 }
 
 .pamigo-filme-tag:hover {
   border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-2px);
 }
 
 /* Perfil não encontrado */

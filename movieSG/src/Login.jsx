@@ -57,10 +57,10 @@ const Login = () => {
     <div className={`Login_mainDiv`}>
       <div className='container' id="loginContainer">
         <div className="row justify-content-center">
-          <div className="col-md-6" id="wrapper">
+          <div id="wrapper">
             <form onSubmit={handleFormSubmit}>
-              <h2 id='LoginFormTitle' className="mb-5">Login</h2>
-              <div className="mb-4">
+              <h2 id='LoginFormTitle'>Login</h2>
+              <div className="login_input_group">
                 <input
                   className='login_inputField'
                   type="email"
@@ -70,21 +70,26 @@ const Login = () => {
                   onChange={(e) => setState({ ...state, email: e.target.value })}
                 />
               </div>
-              <div className="mb-4">
+              <div className="login_input_group">
                 <input
                   className='login_inputField'
                   type="password"
                   id="password"
-                  placeholder="Password"
+                  placeholder="Senha"
                   value={state.password}
                   onChange={(e) => setState({ ...state, password: e.target.value })}
                 />
               </div>
-              <button type="submit" className="btn btn-primary" id="submitBtn">
-                Login
+              <button type="submit" id="submitBtn">
+                Entrar
               </button>
             </form>
             {state.message && <p className="alert alert-info">{state.message}</p>}
+            
+            <div className="login-footer">
+              Não possui uma conta? 
+              <a href="/Cadastro">Cadastre-se</a>
+            </div>
           </div>
         </div>
       </div>

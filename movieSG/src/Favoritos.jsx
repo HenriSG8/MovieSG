@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {  Link  } from 'react-router-dom'
+import {  Link, useNavigate  } from 'react-router-dom'
 import "../src/css/Favoritos.css"
 import { toast } from 'react-toastify'
 
@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 function Favoritos(){
 
 const[filmes,setfilmes] = useState([])
+const navigate = useNavigate();
 
 useEffect(() => {
 
@@ -37,7 +38,7 @@ setfilmes(JSON.parse(minhaLista) || [])
     return(
 
         <div className='meus-filmes' >
-
+            <button className="btn-voltar-topo" onClick={() => navigate('/')}>← Voltar</button>
             <h1 className='titulo'> Favoritos </h1> 
             <ul>
 

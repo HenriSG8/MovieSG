@@ -78,6 +78,7 @@ export default function Amizades() {
 
     return (
         <div className="amizades-container">
+            <button className="btn-voltar-topo" onClick={() => navigate('/')}>← Voltar</button>
             <h1 className="amizades-title">Suas Amizades</h1>
 
             <div className="search-users-section">

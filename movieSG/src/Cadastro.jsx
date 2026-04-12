@@ -2,6 +2,7 @@ import { useState } from "react";
 import backendApi from './services/backendApi';
 import { Link, useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify';
+import './css/Login.css'; // Reutiliza os estilos premium
 
 export default function Cadastro(){
     const navigate = useNavigate();
@@ -38,7 +39,8 @@ export default function Cadastro(){
                 setMessage('Failed to register the story');
             }
         } catch (error) {
-            setMessage(error.message)
+            const errorMsg = error.response?.data?.message || 'Erro ao realizar cadastro. Tente novamente.';
+            setMessage(errorMsg);
         }
     }
     
@@ -47,45 +49,49 @@ export default function Cadastro(){
             <div id="wrapper">
                 <h1 id="LoginFormTitle">Cadastre-se</h1>
                 <form className="form" onSubmit={handleSubmit}>
-                    <input
-                        className="login_inputField"
-                        type="email"
-                        placeholder="E-mail"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        style={{ marginBottom: '15px' }}
-                    />
-                    <input
-                        className="login_inputField"
-                        type="text"
-                        placeholder="Nome Completo"
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        style={{ marginBottom: '15px' }}
-                    />
-                    <input
-                        className="login_inputField"
-                        type="text"
-                        placeholder="Usuário"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        style={{ marginBottom: '15px' }}
-                    />
-                    <input
-                        className="login_inputField"
-                        type="password"
-                        placeholder="Senha"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        style={{ marginBottom: '20px' }}
-                    />
-                    <button type="submit" id="submitBtn">Registrar</button>
+                    <div className="login_input_group">
+                        <input
+                            className="login_inputField"
+                            type="email"
+                            placeholder="E-mail"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </div>
+                    <div className="login_input_group">
+                        <input
+                            className="login_inputField"
+                            type="text"
+                            placeholder="Nome Completo"
+                            value={fullName}
+                            onChange={(e) => setFullName(e.target.value)}
+                        />
+                    </div>
+                    <div className="login_input_group">
+                        <input
+                            className="login_inputField"
+                            type="text"
+                            placeholder="Usuário"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                    </div>
+                    <div className="login_input_group">
+                        <input
+                            className="login_inputField"
+                            type="password"
+                            placeholder="Senha"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </div>
+                    <button type="submit" id="submitBtn">Criar Conta</button>
                 </form>
                 {message && <p className="alert alert-info">{message}</p>}
-                <div style={{ marginTop: '20px', textAlign: 'center' }}>
-                    <Link className="nav-link" to="/Login" style={{ fontSize: '0.9rem', color: 'var(--primary)' }}>
-                        Já possui uma conta? Faça login
-                    </Link>
+                
+                <div className="login-footer">
+                    Já possui uma conta? 
+                    <Link to="/Login">Faça login</Link>
                 </div>
             </div>
 

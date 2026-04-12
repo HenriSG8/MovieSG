@@ -35,7 +35,7 @@ export default function Pesquisa() {
   }, [query]);
 
   return (
-    <div className="home-container" style={{ paddingTop: '100px' }}>
+    <div className="home-container">
       <main className="content">
         <section className="category-section">
           <h2 className="section-title">
@@ -52,7 +52,7 @@ export default function Pesquisa() {
                     {/* Fallback to a placeholder if there is no poster */}
                     <img 
                       className="card-img" 
-                      src={filme.poster_path ? `https://image.tmdb.org/t/p/w500/${filme.poster_path}` : 'https://via.placeholder.com/500x750?text=Sem+Capa'} 
+                      src={filme.poster_path ? `https://image.tmdb.org/t/p/w500/${filme.poster_path}` : 'https://via.placeholder.com/500x750?text=Imagem+Indispon%C3%ADvel'} 
                       alt={filme.title} 
                     />
                     <div className="card-overlay">

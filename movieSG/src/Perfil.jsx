@@ -126,7 +126,7 @@ export default function Perfil() {
         setFilmesFavoritos(prev => [...prev, {
             movieId: filme.id,
             movieTitle: filme.title,
-            moviePoster: filme.poster_path ? `https://image.tmdb.org/t/p/w200/${filme.poster_path}` : ''
+            moviePoster: filme.poster_path ? `https://image.tmdb.org/t/p/w200/${filme.poster_path}` : 'https://via.placeholder.com/200x300?text=Imagem+Indispon%C3%ADvel'
         }]);
         setFilmeInput('');
         setFilmeBuscaResultados([]);
@@ -161,6 +161,7 @@ export default function Perfil() {
     return (
         <div className="perfil-page">
             <div className="perfil-container">
+                <button className="btn-voltar-topo" onClick={() => navigate('/')}>← Voltar</button>
                 <h1 className="perfil-title">✏️ Meu Perfil</h1>
 
                 {/* Foto */}
@@ -242,7 +243,7 @@ export default function Perfil() {
                             <div key={f.movieId} className="filme-favorito-card">
                                 {f.moviePoster
                                     ? <img src={f.moviePoster} alt={f.movieTitle} className="filme-favorito-poster" />
-                                    : <div className="filme-favorito-no-poster">🎬</div>
+                                    : <div className="filme-favorito-no-poster">Imagem Indisponível</div>
                                 }
                                 <span className="filme-favorito-titulo">{f.movieTitle}</span>
                                 <button className="filme-favorito-remover" onClick={() => removerFilme(f.movieId)}>✕</button>

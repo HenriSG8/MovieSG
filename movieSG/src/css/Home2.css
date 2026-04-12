@@ -12,7 +12,7 @@
   align-items: center;
   padding: 0 5%;
   position: relative;
-  margin-top: -80px; /* Alinha sob a navbar transparente */
+  /* Removido margin-top negativo para evitar corte pela navbar */
 }
 
 .hero-content {
@@ -72,11 +72,17 @@
 
 /* Content & Grids */
 .content {
-  padding: 0 5%;
-  margin-top: -50px;
+  padding: 0 5% 50px;
+  margin-top: 0;
   position: relative;
   z-index: 5;
 }
+
+/* Quando não tem hero, garante espaço para a navbar */
+.home-container {
+  padding-top: 80px;
+}
+
 
 .category-section {
   margin-bottom: 60px;
@@ -178,13 +184,65 @@
   }
 }
 
-/* Seção: Aprovados pelos Amigos */
+/* Seção: Em Cartaz — Simplificada para o layout padrão */
+.cartaz-section {
+  display: none; /* Agora usa a classe padrão de grid nas seções */
+}
+
+/* Accordion: Aprovados pelos Amigos */
+.friends-recs-section .accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  transition: var(--transition);
+}
+
+.friends-recs-section .accordion-header:hover {
+  filter: brightness(1.2);
+}
+
+.title-text-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.accordion-arrow {
+  color: var(--primary);
+  font-size: 1.2rem;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-arrow.open {
+  transform: rotate(180deg);
+}
+
+.friends-recs-section .accordion-content {
+  max-height: 2000px;
+  opacity: 1;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.friends-recs-section.collapsed .accordion-content {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.friends-recs-section.collapsed {
+  margin-bottom: 20px;
+}
+
 .friends-recs-section {
   background: linear-gradient(135deg, rgba(0, 210, 255, 0.05) 0%, rgba(0, 123, 255, 0.05) 100%);
   border: 1px solid rgba(0, 210, 255, 0.12);
   border-radius: 16px;
   padding: 30px;
   margin-bottom: 60px;
+  transition: all 0.5s ease;
 }
 
 .friends-recs-subtitle {
@@ -223,3 +281,126 @@
   font-size: 0.78rem;
   color: rgba(255, 255, 255, 0.7);
 }
+
+/* Seção: Recomendados para Você */
+.user-recs-section {
+  background: linear-gradient(135deg, rgba(200, 0, 255, 0.05) 0%, rgba(100, 0, 255, 0.05) 100%);
+  border: 1px solid rgba(200, 0, 255, 0.12);
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 60px;
+}
+
+.user-recs-subtitle {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--text-dim);
+  margin-top: 4px;
+  padding-left: 20px;
+  border-left: none;
+}
+
+.user-rec-card {
+  border: 1px solid rgba(200, 0, 255, 0.15);
+}
+
+.user-rec-card:hover {
+  box-shadow: 0 8px 24px rgba(200, 0, 255, 0.15);
+  transform: translateY(-4px);
+}
+
+/* Profile Prompt Modal */
+.profile-prompt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.4s ease;
+}
+
+.profile-prompt-card {
+  background: rgba(20, 20, 30, 0.85);
+  border: 1px solid rgba(0, 210, 255, 0.2);
+  backdrop-filter: blur(16px);
+  border-radius: 24px;
+  max-width: 500px;
+  width: 100%;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.prompt-content h2 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.prompt-content p {
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.prompt-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.btn-prompt-later {
+  padding: 12px 25px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-prompt-later:hover {
+  border-color: #fff;
+  color: #fff;
+}
+
+.btn-prompt-now {
+  padding: 12px 30px;
+  background: linear-gradient(135deg, var(--primary), #007bff);
+  color: #000;
+  border-radius: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: var(--transition);
+  box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+}
+
+.btn-prompt-now:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 210, 255, 0.4);
+}
+
+.prompt-tip {
+  font-size: 0.85rem !important;
+  font-style: italic;
+  margin-bottom: 0 !important;
+  opacity: 0.8;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+

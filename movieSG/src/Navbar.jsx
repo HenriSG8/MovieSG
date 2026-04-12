@@ -9,7 +9,19 @@ const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [theme, setTheme] = useState("light");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [user, setUser] = useState(null);
+
+  const GENRES = [
+    { id: 28, name: "Ação" },
+    { id: 35, name: "Comédia" },
+    { id: 27, name: "Terror" },
+    { id: 10749, name: "Romance" },
+    { id: 87, name: "Ficção Científica" },
+    { id: 16, name: "Animação" },
+    { id: 18, name: "Drama" },
+    { id: 53, name: "Suspense" }
+  ];
   const navigate = useNavigate();
   const cookies = new Cookies();
   useEffect(() => {
@@ -65,6 +77,31 @@ const Navbar = () => {
         </a>
         
         <form className="search-form" onSubmit={handleSearch}>
+          <div className="category-dropdown-wrapper">
+            <button 
+              type="button" 
+              className="category-toggle-btn" 
+              onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+              title="Categorias"
+            >
+              📂
+            </button>
+            {isCategoryOpen && (
+              <ul className="category-menu">
+                {GENRES.map(g => (
+                  <li key={g.id}>
+                    <Link 
+                      to={`/Categoria/${g.id}/${g.name}`} 
+                      className="category-item"
+                      onClick={() => setIsCategoryOpen(false)}
+                    >
+                      {g.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
           <input 
             type="text" 
             className="search-input"

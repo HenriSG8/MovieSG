@@ -138,13 +138,23 @@ function Filmee() {
   }
 
     return (
-      <div className='filme-details-container' style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${filme.backdrop_path})` }}>
+      <div className='filme-details-container' style={{ 
+        backgroundImage: filme.backdrop_path 
+          ? `url(https://image.tmdb.org/t/p/original/${filme.backdrop_path})` 
+          : `linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('https://via.placeholder.com/1920x1080?text=Imagem+Indispon%C3%ADvel')`
+      }}>
         <button className='back-btn' onClick={() => navigate(-1)}>
           &#8592; Voltar
         </button>
         <div className='filme-info-wrapper'>
           <div className='poster-side'>
-            <img src={`https://image.tmdb.org/t/p/w500/${filme.poster_path}`} alt={filme.title} />
+            <img 
+              src={filme.poster_path 
+                ? `https://image.tmdb.org/t/p/w500/${filme.poster_path}` 
+                : 'https://via.placeholder.com/500x750?text=Imagem+Indispon%C3%ADvel'
+              } 
+              alt={filme.title} 
+            />
           </div>
           
           <div className='info-side'>

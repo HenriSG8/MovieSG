@@ -11,6 +11,7 @@ import Pesquisa from "./Pesquisa";
 import Amizades from "./Amizades";
 import Perfil from "./Perfil";
 import PerfilAmigo from "./PerfilAmigo";
+import Categoria from "./Categoria";
 
 export default function RoutesApp(){
 
@@ -29,6 +30,7 @@ return(
         <Route path="/Perfil" element={<Perfil />} />
         <Route path="/PerfilAmigo/:userId" element={<PerfilAmigo />} />
         <Route path="/Pesquisar/:query" element={<Pesquisa />} />
+        <Route path="/Categoria/:id/:name" element={<Categoria />} />
       </Routes>
     </BrowserRouter>
 

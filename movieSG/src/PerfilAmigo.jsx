@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import backendApi from './services/backendApi';
 import './css/PerfilAmigo.css';
@@ -109,9 +109,9 @@ export default function PerfilAmigo() {
                         <h2>Filmes Favoritos</h2>
                         <div className="pamigo-filmes">
                             {perfil.filmesFavoritos.map(f => (
-                                <div key={f.id} className="pamigo-filme-tag">
+                                <Link to={`/Filmee/${f.movieId}`} key={f.id} className="pamigo-filme-tag">
                                     🎬 {f.movieTitle}
-                                </div>
+                                </Link>
                             ))}
                         </div>
                     </div>
