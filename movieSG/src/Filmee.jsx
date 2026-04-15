@@ -5,7 +5,6 @@ import backendApi from "./services/backendApi";
 import '../src/css/filmee-info.css'
 import { toast } from 'react-toastify'
 import Cookies from 'universal-cookie';
-import StreamPlayer from './StreamPlayer';
 
 function Filmee() {
     const {id} = useParams();
@@ -17,8 +16,9 @@ function Filmee() {
     const[ userScore, setUserScore] = useState(0);
     const[ userComment, setUserComment] = useState('');
     const[ ratingSummary, setRatingSummary] = useState({ average: 0, count: 0 });
-    const[ showPlayer, setShowPlayer] = useState(false);
     const[ imdbId, setImdbId] = useState(null);
+    const[ torrents, setTorrents] = useState([]);
+    const[ loadingTorrents, setLoadingTorrents] = useState(false);
 
     const cookieData = cookies.get('accessToken');
     const isLoggedIn = cookieData && cookieData.id;
@@ -43,8 +43,7 @@ function Filmee() {
     }
 
     async function loadUserRating() {
-        const cookieData = cookies.get('accessToken');
-        if (cookieData && cookieData.id) {
+        if (isLoggedIn) {
             try {
                 const response = await backendApi.get(`/ratings/${id}`, {
                     params: { userId: cookieData.id }
@@ -90,16 +89,31 @@ function Filmee() {
     loadRatingSummary();
     loadImdbId();
 
-    return() =>{
-      console.log("COMPONENTE FOI DESMONTADO")
-    }
+  },[navigate,id, isLoggedIn])
 
-  },[navigate,id])
+  // Busca os Torrents assim que o imdbId estiver disponível
+  useEffect(() => {
+    if (imdbId) {
+      async function fetchTorrents() {
+        setLoadingTorrents(true);
+        try {
+          const res = await backendApi.get(`/torrent/search/${imdbId}`);
+          if (res.data && res.data.torrents) {
+            setTorrents(res.data.torrents);
+          }
+        } catch (err) {
+          console.error('Erro ao buscar torrents:', err);
+        } finally {
+          setLoadingTorrents(false);
+        }
+      }
+      fetchTorrents();
+    }
+  }, [imdbId]);
 
 
   async function handleSaveRating() {
-    const cookieData = cookies.get('accessToken');
-    if (!cookieData || !cookieData.id) {
+    if (!isLoggedIn) {
       toast.error("Você precisa estar logado para avaliar!");
       return;
     }
@@ -118,22 +132,15 @@ function Filmee() {
         comment: userComment
       });
       toast.success("Avaliação salva com sucesso!");
-      
-      // Refresh summary
-      const response = await backendApi.get(`/ratings/summary/${id}`);
-      if (response.data) {
-        setRatingSummary(response.data);
-      }
+      loadRatingSummary();
     } catch (error) {
       const msg = error.response?.data?.message || "Erro de conexão com o servidor. Tente novamente.";
       toast.error(msg);
-      console.error(error);
     }
   }
 
   function salvarFilme (){
-    const cookieData = cookies.get('accessToken');
-    if (!cookieData || !cookieData.id) {
+    if (!isLoggedIn) {
       toast.error("Você precisa estar logado para favoritar um filme!");
       return;
     }
@@ -151,6 +158,13 @@ function Filmee() {
     localStorage.setItem("@movieSG", JSON.stringify(filmeSalvos));
     toast.success("FILME SALVO COM SUCESSO!")
   }
+
+  const getQualityClass = (quality) => {
+    if (quality.includes('2160')) return 'q-2160p';
+    if (quality.includes('1080')) return 'q-1080p';
+    if (quality.includes('720')) return 'q-720p';
+    return '';
+  };
 
   if(loading){
     return(
@@ -203,10 +217,33 @@ function Filmee() {
                   Trailer
                 </a>
               </button>
-              {imdbId && isLoggedIn && (
-                <button className='bnt-stream' onClick={() => setShowPlayer(true)}>
-                  ▶ Assistir
-                </button>
+            </div>
+
+            {/* SEÇÃO DE MAGNET LINKS */}
+            <div className='magnets-section'>
+              <h3 className='magnets-title'>🧲 Downloads Disponíveis</h3>
+              {loadingTorrents ? (
+                <div className='loading-magnets'>
+                   <span>Buscando links magnéticos...</span>
+                </div>
+              ) : torrents.length > 0 ? (
+                <div className='magnets-list'>
+                  {torrents.map((t, idx) => (
+                    <div key={idx} className="magnet-row">
+                      <div className="magnet-info">
+                        <span className={`magnet-quality ${getQualityClass(t.quality)}`}>{t.quality}</span>
+                        <span className="magnet-lang">{t.language || 'Original'}</span>
+                        <span className="magnet-size">{t.size}</span>
+                      </div>
+                      <a href={t.magnetLink} className="magnet-download-btn">
+                        <span>Baixar Magnet</span>
+                        <small>📥</small>
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className='no-magnets'>Nenhum link de download disponível para este filme no momento.</p>
               )}
             </div>
 
@@ -239,15 +276,6 @@ function Filmee() {
             </div>
           </div>
         </div>
-
-        {/* Stream Player Modal */}
-        {showPlayer && imdbId && (
-          <StreamPlayer
-            imdbId={imdbId}
-            movieTitle={filme.title}
-            onClose={() => setShowPlayer(false)}
-          />
-        )}
       </div>
     );
 }

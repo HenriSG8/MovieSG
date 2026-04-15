@@ -31,7 +31,11 @@ export default function Home() {
         },
       });
 
-      setfilmes(response.data.results.slice(8, 12));
+      const filtered = response.data.results.filter(movie => 
+        !movie.genre_ids.includes(27) && !movie.genre_ids.includes(53)
+      );
+
+      setfilmes(filtered.slice(0, 4));
     }
 
     async function loadFilmes2() {

@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { TorrentController } from './torrent.controller';
-import { TorrentStreamController } from './torrent-stream.controller';
 import { TorrentService } from './torrent.service';
 
 @Module({
@@ -11,7 +10,7 @@ import { TorrentService } from './torrent.service';
       maxRedirects: 3,
     }),
   ],
-  controllers: [TorrentController, TorrentStreamController],
+  controllers: [TorrentController],
   providers: [TorrentService],
   exports: [TorrentService],
 })

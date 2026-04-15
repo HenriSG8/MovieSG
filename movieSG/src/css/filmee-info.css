@@ -243,3 +243,104 @@
   box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3);
 }
 
+
+/* Magnets Section */
+.magnets-section {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.magnets-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.magnets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.magnet-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.magnet-row:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--primary);
+  transform: translateX(5px);
+}
+
+.magnet-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.magnet-quality {
+  padding: 4px 10px;
+  background: #ffb347;
+  color: #000;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.magnet-quality.q-1080p { background: #00d2ff; color: #fff; }
+.magnet-quality.q-720p { background: #a8ff78; color: #000; }
+.magnet-quality.q-2160p { background: #f77062; color: #fff; }
+
+.magnet-lang {
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.magnet-size {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.magnet-download-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--primary);
+  color: #000;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.magnet-download-btn:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+}
+
+.loading-magnets {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #888;
+  font-style: italic;
+}
+
+.no-magnets {
+  color: #ff6b6b;
+  font-size: 0.95rem;
+}
