@@ -4,7 +4,8 @@ import Cadastro from "./Cadastro";
 import Login from "./Login";
 import Home from "./Home";
 import Navbar from "./Navbar";
-import Favoritos from "./Favoritos";
+import Salvos from "./Salvos";
+
 import Filmee from "./Filmee";
 import Pesquisa from "./Pesquisa";
 
@@ -25,7 +26,8 @@ return(
         <Route path="/" element={<Home />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Cadastro" element={<Cadastro />} />
-        <Route path="/Favoritos" element={<Favoritos />} />
+        <Route path="/Salvos" element={<Salvos />} />
+
         <Route path="/Amizades" element={<Amizades />} />
         <Route path="/Perfil" element={<Perfil />} />
         <Route path="/PerfilAmigo/:userId" element={<PerfilAmigo />} />

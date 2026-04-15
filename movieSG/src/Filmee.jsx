@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import {  useParams , useNavigate   } from 'react-router-dom'
 import api from "./services/api";
 import backendApi from "./services/backendApi";
@@ -19,9 +19,21 @@ function Filmee() {
     const[ imdbId, setImdbId] = useState(null);
     const[ torrents, setTorrents] = useState([]);
     const[ loadingTorrents, setLoadingTorrents] = useState(false);
+    const[ isSaved, setIsSaved] = useState(false);
 
     const cookieData = cookies.get('accessToken');
     const isLoggedIn = cookieData && cookieData.id;
+
+    const checkIsSaved = useCallback(async () => {
+      if (isLoggedIn && id) {
+        try {
+          const res = await backendApi.get(`/saved-movies/check/${cookieData.id}/${id}`);
+          setIsSaved(res.data.favorited);
+        } catch (e) {
+          console.error("Erro ao checar se filme está salvo:", e);
+        }
+      }
+    }, [isLoggedIn, id, cookieData?.id]);
   
     useEffect(()=>{
     async function loadFilme(){
@@ -88,8 +100,9 @@ function Filmee() {
     loadUserRating();
     loadRatingSummary();
     loadImdbId();
+    checkIsSaved();
 
-  },[navigate,id, isLoggedIn])
+  },[navigate,id, isLoggedIn, checkIsSaved])
 
   // Busca os Torrents assim que o imdbId estiver disponível
   useEffect(() => {
@@ -139,24 +152,33 @@ function Filmee() {
     }
   }
 
-  function salvarFilme (){
+  async function toggleSalvarFilme (){
     if (!isLoggedIn) {
-      toast.error("Você precisa estar logado para favoritar um filme!");
+      toast.error("Você precisa estar logado para salvar um filme!");
       return;
     }
 
-    const minhaLista = localStorage.getItem("@movieSG");
-    let filmeSalvos = JSON.parse(minhaLista) || [];
-    const hasFilme = filmeSalvos.some( (filmeSalvo) => filmeSalvo.id === filme.id)
-
-    if(hasFilme){
-      toast.warn("O FILME JÁ ESTA SALVO")
-      return;
+    try {
+      if (isSaved) {
+        // Remover
+        await backendApi.delete(`/saved-movies/${cookieData.id}/${id}`);
+        setIsSaved(false);
+        toast.info("Filme removido da sua lista.");
+      } else {
+        // Salvar
+        await backendApi.post('/saved-movies', {
+          userId: cookieData.id,
+          movieId: Number(id),
+          movieTitle: filme.title,
+          moviePoster: filme.poster_path
+        });
+        setIsSaved(true);
+        toast.success("Filme salvo com sucesso!");
+      }
+    } catch (error) {
+      console.error("Erro ao salvar/remover filme:", error);
+      toast.error("Erro na comunicação com o servidor.");
     }
-
-    filmeSalvos.push(filme);
-    localStorage.setItem("@movieSG", JSON.stringify(filmeSalvos));
-    toast.success("FILME SALVO COM SUCESSO!")
   }
 
   const getQualityClass = (quality) => {
@@ -211,7 +233,13 @@ function Filmee() {
             <span className='sinopse-text'> {filme.overview} </span>
 
             <div className='area-buttons'>  
-              <button onClick={salvarFilme} className='bnt2'> Salvar </button>
+              <button 
+                onClick={toggleSalvarFilme} 
+                className={`bnt2 ${isSaved ? 'btn-saved-active' : ''}`}
+                style={isSaved ? { backgroundColor: '#ff6b6b', color: '#fff' } : {}}
+              > 
+                {isSaved ? 'Remover dos Salvos' : 'Salvar Filme'}
+              </button>
               <button className='bnt3'>
                 <a target='_blank' rel='noreferrer' href={`https://www.youtube.com/results?search_query=${filme.title} Trailer`}> 
                   Trailer

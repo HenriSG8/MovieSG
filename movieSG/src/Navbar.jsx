@@ -126,7 +126,7 @@ const Navbar = () => {
               <span className="nav-link user-name-link">Olá, {user.username}</span>
               <ul className="dropdown-menu">
                 <li><Link to="/Perfil" className="dropdown-item">Meu Perfil</Link></li>
-                <li><Link to="/Favoritos" className="dropdown-item">Favoritos</Link></li>
+                <li><Link to="/Salvos" className="dropdown-item">Filmes Salvos</Link></li>
                 <li><Link to="/Amizades" className="dropdown-item">Minhas Amizades</Link></li>
                 <li><button onClick={handleLogout} className="dropdown-item logout-btn">Sair</button></li>
               </ul>
