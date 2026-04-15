@@ -6,6 +6,7 @@ import { RatingModule } from './rating/rating.module';
 import { FriendshipModule } from './friendship/friendship.module';
 import { PerfilModule } from './perfil/perfil.module';
 import { TorrentModule } from './torrent/torrent.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 
 @Module({
@@ -30,6 +31,7 @@ import { TorrentModule } from './torrent/torrent.module';
     FriendshipModule,
     PerfilModule,
     TorrentModule,
+    ScheduleModule.forRoot(),
   ],
   controllers: [],
   providers: [],

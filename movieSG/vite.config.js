@@ -19,12 +19,10 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      // bittorrent-dht é Node-only (usa dgram/net), no browser usamos o stub para dev e build
+      // Forçamos o uso da versão pré-compilada para evitar que o esbuild tente compilar os arquivos internos do Node.js
+      'webtorrent': 'webtorrent/dist/webtorrent.min.js',
       'bittorrent-dht': path.resolve(__dirname, './src/bittorrent-dht-stub.js'),
     },
-  },
-  optimizeDeps: {
-    exclude: ['webtorrent', 'bittorrent-tracker', 'create-torrent'],
   },
   build: {
     chunkSizeWarningLimit: 1200,

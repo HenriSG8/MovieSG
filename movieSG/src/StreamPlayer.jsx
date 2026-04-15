@@ -89,115 +89,13 @@ export default function StreamPlayer({ imdbId, movieTitle, onClose }) {
     }
   }, []);
 
-  // ─── Iniciar streaming P2P ───
-  const startStreaming = useCallback(async (torrent) => {
+  // ─── Iniciar streaming via Servidor ───
+  const startStreaming = useCallback((torrent) => {
     setSelectedTorrent(torrent);
     setPhase('playing');
     setIsBuffering(true);
     setStats({ progress: 0, downloadSpeed: 0, uploadSpeed: 0, peers: 0, downloaded: 0, total: 0 });
 
-    // Verificar suporte WebTorrent
-    try {
-      const WebTorrent = (await import('webtorrent')).default;
-
-      // Verificar suporte a WebRTC
-      if (!WebTorrent.WEBRTC_SUPPORT) {
-        setPhase('unsupported');
-        setSelectedTorrent(torrent);
-        return;
-      }
-
-      const client = new WebTorrent();
-      clientRef.current = client;
-
-      client.on('error', (err) => {
-        console.error('WebTorrent error:', err);
-        setErrorMsg('Erro na conexão P2P. Tente outra qualidade.');
-        setPhase('error');
-      });
-
-      client.add(torrent.magnetLink, { strategy: 'sequential' }, (wt) => {
-        torrentRef.current = wt;
-
-        // Encontrar o maior arquivo de vídeo
-        const webCompatible = ['.mp4', '.webm', '.m4v'];
-        let videoFile = null;
-        let largestSize = 0;
-        let isMkv = false;
-
-        wt.files.forEach((file) => {
-          const ext = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
-          if (webCompatible.includes(ext) && file.length > largestSize) {
-            videoFile = file;
-            largestSize = file.length;
-          }
-          if (ext === '.mkv') isMkv = true;
-        });
-
-        // Se não encontrar formato web, pegar o maior arquivo qualquer (provavelmente MKV)
-        if (!videoFile) {
-          wt.files.forEach((file) => {
-            if (file.length > largestSize) {
-              videoFile = file;
-              largestSize = file.length;
-            }
-          });
-        }
-
-        if (!videoFile) {
-          setErrorMsg('Nenhum arquivo de vídeo encontrado no torrent.');
-          setPhase('error');
-          return;
-        }
-
-        // Priorizar peças iniciais para streaming
-        videoFile.select();
-
-        // Renderizar no elemento <video>
-        if (videoRef.current) {
-          videoFile.renderTo(videoRef.current, { autoplay: true, muted: false }, (err) => {
-            if (err) {
-              console.error('Erro ao renderizar vídeo:', err);
-              // Erro de codec (provavelmente MKV no Chrome/Opera)
-              setErrorMsg(isMkv 
-                ? 'Este torrent usa o formato .MKV, que não é suportado nativamente pelo seu navegador.' 
-                : 'O navegador não conseguiu processar o formato deste vídeo.');
-              setPhase('unsupported');
-              return;
-            }
-          });
-        }
-
-        // Video events
-        if (videoRef.current) {
-          videoRef.current.onwaiting = () => setIsBuffering(true);
-          videoRef.current.onplaying = () => setIsBuffering(false);
-          videoRef.current.oncanplay = () => setIsBuffering(false);
-        }
-
-        // Atualizar stats em tempo real
-        statsIntervalRef.current = setInterval(() => {
-          if (wt) {
-            setStats({
-              progress: wt.progress || 0,
-              downloadSpeed: wt.downloadSpeed || 0,
-              uploadSpeed: wt.uploadSpeed || 0,
-              peers: wt.numPeers || 0,
-              downloaded: wt.downloaded || 0,
-              total: videoFile.length || 0,
-            });
-          }
-        }, 1000);
-
-        wt.on('done', () => {
-          setStats((prev) => ({ ...prev, progress: 1 }));
-          setIsBuffering(false);
-        });
-      });
-    } catch (err) {
-      console.error('Erro ao carregar WebTorrent:', err);
-      setPhase('unsupported');
-    }
   }, []);
 
   // ─── Handlers ───
@@ -359,11 +257,19 @@ export default function StreamPlayer({ imdbId, movieTitle, onClose }) {
               {/* Video */}
               <div className="stream-video-wrapper">
                 <video
-                  ref={videoRef}
+                  ref={(el) => {
+                    videoRef.current = el;
+                    if (el) {
+                      el.onwaiting = () => setIsBuffering(true);
+                      el.onplaying = () => setIsBuffering(false);
+                      el.oncanplay = () => setIsBuffering(false);
+                    }
+                  }}
                   controls
                   autoPlay
                   playsInline
                   id="stream-video-element"
+                  src={`http://localhost:3001/torrent/stream/${selectedTorrent.hash}`}
                 />
                 {isBuffering && (
                   <div className="stream-buffering-overlay">
@@ -438,10 +344,13 @@ export default function StreamPlayer({ imdbId, movieTitle, onClose }) {
           {phase === 'unsupported' && (
             <div className="stream-not-supported">
               <div className="stream-error-icon">🔧</div>
-              <h4>Streaming P2P não suportado neste navegador</h4>
+              <h4>Streaming P2P Erro ou Não Suportado</h4>
               <p>
-                Seu navegador não suporta WebRTC/WebTorrent ou o codec do vídeo não é compatível.
-                Use o botão abaixo para abrir o torrent no seu cliente desktop (qBittorrent, Transmission, etc).
+                {errorMsg || 'Seu navegador não suporta WebRTC ou você está acessando o site sem HTTPS (rede local insegura).'}
+              </p>
+              <br/>
+              <p style={{fontSize: '0.9em', color: '#ccc'}}>
+                Se você não conseguir resolver, use o botão abaixo para baixar o torrent diretamente pelo seu gerenciador de downloads favorito (como qBittorrent, Transmission ou uTorrent).
               </p>
               {selectedTorrent && (
                 <a href={selectedTorrent.magnetLink} className="stream-desktop-btn">
